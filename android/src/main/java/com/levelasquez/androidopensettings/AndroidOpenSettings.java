@@ -1,6 +1,7 @@
 package com.levelasquez.androidopensettings;
 
 import android.content.Intent;
+import android.content.ComponentName;
 import android.net.Uri;
 import android.provider.Settings;
 
@@ -89,6 +90,18 @@ public class AndroidOpenSettings extends ReactContextBaseJavaModule {
         Intent intent = new Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        if (intent.resolveActivity(reactContext.getPackageManager()) != null) {
+            reactContext.startActivity(intent);
+        }
+    }
+
+    @ReactMethod
+    public void hotspotSettings() {
+        final Intent intent = new Intent(Intent.ACTION_MAIN, null);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        final ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.TetherSettings");
+        intent.setComponent(cn);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (intent.resolveActivity(reactContext.getPackageManager()) != null) {
             reactContext.startActivity(intent);
         }
